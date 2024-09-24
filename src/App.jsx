@@ -11,8 +11,13 @@ const App = () => {
 
   const addNote = () => {
     if (noteTitle && noteInput) {
-      
-      setNotes([...notes, { title: noteTitle, content: noteInput, color: noteColor }]);
+      const newNote = { 
+        id: Date.now(),  // Genera un ID único basado en el tiempo
+        title: noteTitle, 
+        content: noteInput, 
+        color: noteColor 
+      };
+      setNotes([...notes, newNote]);
       setNoteTitle('');
       setNoteInput('');
       setNoteColor('#fdf4ca');

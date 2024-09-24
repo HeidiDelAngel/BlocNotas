@@ -38,7 +38,17 @@ const Note = ({ title, content, color, index, deleteNote, editNote }) => {
   };
 
   const titleColor = darkenColor(color, -20);
-  const textColor = newColor === '#000000' ? '#FFFFFF' : '#000000'; // Texto blanco si el color es negro
+  
+  // Función para calcular la luminosidad del color
+  const isDarkColor = (hex) => {
+    const r = parseInt(hex.substring(1, 3), 16);
+    const g = parseInt(hex.substring(3, 5), 16);
+    const b = parseInt(hex.substring(5, 7), 16);
+    const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+    return brightness < 128;  // Si el brillo es menor que 128, es un color oscuro
+  };
+
+  const textColor = isDarkColor(newColor) ? '#FFFFFF' : '#000000'; // Blanco si el color es oscuro, negro si es claro
 
   return (
     <div className="col-sm-4 mb-3">
@@ -48,7 +58,7 @@ const Note = ({ title, content, color, index, deleteNote, editNote }) => {
             <h5 className="card-title" style={{ backgroundColor: titleColor, color: textColor, cursor: 'default' }}>
               {title}
             </h5>
-            <span onClick={() => setIsMinimized(!isMinimized)} style={{ backgroundColor: titleColor, cursor: 'pointer' }}>
+            <span onClick={() => setIsMinimized(!isMinimized)} style={{ backgroundColor: titleColor, cursor: 'pointer', color: textColor }}>
               &nbsp;&nbsp;{isMinimized ? '+' : '-'}&nbsp;&nbsp;
             </span>
           </div>

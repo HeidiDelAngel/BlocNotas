@@ -6,7 +6,7 @@ const NoteList = ({ notes, deleteNote, editNote }) => {
     <div className="row justify-content-center">
       {notes.map((note, index) => (
         <Note
-          key={index}
+          key={note.id}  // Usar el id único en lugar del índice
           index={index}
           title={note.title}
           content={note.content}
