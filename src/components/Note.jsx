@@ -1,16 +1,30 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const Note = ({ title, content, color, id, deleteNote, editNote }) => {
+const Note = ({ title, content, color, index, deleteNote, editNote }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [newTitle, setNewTitle] = useState(title);
   const [newContent, setNewContent] = useState(content);
   const [newColor, setNewColor] = useState(color);
+  const [isMinimized, setIsMinimized] = useState(false); // Nuevo estado para minimizar/maximizar
 
   const handleEdit = () => {
     if (newTitle && newContent) {
-      editNote(id, { title: newTitle, content: newContent, color: newColor });
+      editNote(index, { title: newTitle, content: newContent, color: newColor });
       setIsEditing(false);
+    }
+  };
+
+  const handleCancel = () => {
+    setIsEditing(false);
+    setNewTitle(title);
+    setNewContent(content);
+    setNewColor(color);
+  };
+
+  const handleDelete = () => {
+    if (window.confirm("¿Está seguro de que desea eliminar esta nota?")) {
+      deleteNote(index);
     }
   };
 
@@ -24,47 +38,62 @@ const Note = ({ title, content, color, id, deleteNote, editNote }) => {
   };
 
   const titleColor = darkenColor(color, -20);
+  const textColor = newColor === '#000000' ? '#FFFFFF' : '#000000'; // Texto blanco si el color es negro
 
   return (
-    <div className="col-sm-6 mb-3">
+    <div className="col-sm-4 mb-3">
       <div className="card" style={{ backgroundColor: color }}>
         <div className="card-body">
-          {isEditing ? (
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <h5 className="card-title" style={{ backgroundColor: titleColor, color: textColor, cursor: 'default' }}>
+              {title}
+            </h5>
+            <span onClick={() => setIsMinimized(!isMinimized)} style={{ backgroundColor: 'gray', cursor: 'pointer' }}>
+              &nbsp;{isMinimized ? '+' : '-'}&nbsp;
+            </span>
+          </div>
+          {!isMinimized && (
             <>
-              <input
-                type="text"
-                value={newTitle}
-                onChange={(e) => setNewTitle(e.target.value)}
-                placeholder="Título"
-                className="form-control mb-2"
-              />
-              <textarea
-                value={newContent}
-                onChange={(e) => setNewContent(e.target.value)}
-                rows="5"
-                className="form-control mb-2"
-              />
-              <input
-                type="color"
-                value={newColor}
-                onChange={(e) => setNewColor(e.target.value)}
-                className="form-control mb-2"
-              />
-              <button onClick={handleEdit} className="btn btn-primary">Guardar</button>
-            </>
-          ) : (
-            <>
-              <h5 className="card-title" style={{ backgroundColor: titleColor }}>{title}</h5>
-              <p className="card-text">
-                {newContent.split('\n').map((line, index) => (
-                  <span key={index}>
-                    {line}
-                    <br />
-                  </span>
-                ))}
-              </p>
-              <button onClick={() => setIsEditing(true)} className="btn btn-secondary">Editar</button>
-              <button onClick={() => deleteNote(id)} className="btn btn-danger">Eliminar</button>
+              {isEditing ? (
+                <>
+                  <input
+                    type="text"
+                    value={newTitle}
+                    onChange={(e) => setNewTitle(e.target.value)}
+                    placeholder="Título"
+                    className="form-control mb-2"
+                  />
+                  <textarea
+                    value={newContent}
+                    onChange={(e) => setNewContent(e.target.value)}
+                    rows="5"
+                    className="form-control mb-2"
+                  />
+                  <input
+                    type="color"
+                    value={newColor}
+                    onChange={(e) => setNewColor(e.target.value)}
+                    className="form-control mb-2"
+                  />
+                  <div className="d-flex justify-content-between">
+                    <button onClick={handleEdit} className="btn btn-primary">Guardar</button>
+                    <button onClick={handleCancel} className="btn btn-secondary">Cancelar</button>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <p className="card-text" style={{ color: textColor }}>
+                    {newContent.split('\n').map((line, index) => (
+                      <span key={index}>
+                        {line}
+                        <br />
+                      </span>
+                    ))}
+                  </p>
+                  <button onClick={() => setIsEditing(true)} className="btn btn-secondary" style={{ marginRight: '20px' }}>Editar</button>
+                  <button onClick={handleDelete} className="btn btn-danger">Eliminar</button>
+                </>
+              )}
             </>
           )}
         </div>
