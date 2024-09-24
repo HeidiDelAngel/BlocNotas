@@ -4,10 +4,10 @@ import Note from './Note';
 const NoteList = ({ notes, deleteNote, editNote }) => {
   return (
     <div className="row justify-content-center">
-      {notes.map((note, index) => (
+      {notes.map((note) => (
         <Note
-          key={index}
-          index={index}
+          key={note.id} // Usar id único como key
+          id={note.id}  // Pasar el id a Note
           title={note.title}
           content={note.content}
           color={note.color}

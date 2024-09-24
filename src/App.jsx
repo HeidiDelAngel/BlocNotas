@@ -10,22 +10,30 @@ const App = () => {
 
   const addNote = () => {
     if (noteTitle && noteInput) {
-      setNotes([...notes, { title: noteTitle, content: noteInput, color: noteColor }]);
+      const newNote = {
+        id: Date.now(), // Generar un id único
+        title: noteTitle,
+        content: noteInput,
+        color: noteColor
+      };
+      setNotes([...notes, newNote]);
       setNoteTitle('');
       setNoteInput('');
       setNoteColor('#fdf4ca');
     }
   };
 
-  const deleteNote = (index) => {
-    const newNotes = notes.filter((_, i) => i !== index);
+  const deleteNote = (id) => {
+    const newNotes = notes.filter(note => note.id !== id);
     setNotes(newNotes);
-  };
+  };  
 
-  const editNote = (index, newNote) => {
-    const updatedNotes = notes.map((note, i) => (i === index ? newNote : note));
+  const editNote = (id, updatedNote) => {
+    const updatedNotes = notes.map(note => 
+      note.id === id ? updatedNote : note
+    );
     setNotes(updatedNotes);
-  };
+  };  
 
    // Obtener el año actual dinámicamente
    const currentYear = new Date().getFullYear();

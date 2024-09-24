@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const Note = ({ title, content, color, index, deleteNote, editNote }) => {
+const Note = ({ title, content, color, id, deleteNote, editNote }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [newTitle, setNewTitle] = useState(title);
   const [newContent, setNewContent] = useState(content);
-  const [newColor, setNewColor] = useState('#fdf4ca');
+  const [newColor, setNewColor] = useState(color);
 
   const handleEdit = () => {
     if (newTitle && newContent) {
-      editNote(index, { title: newTitle, content: newContent, color: newColor });
+      editNote(id, { title: newTitle, content: newContent, color: newColor });
       setIsEditing(false);
     }
   };
@@ -64,7 +64,7 @@ const Note = ({ title, content, color, index, deleteNote, editNote }) => {
                 ))}
               </p>
               <button onClick={() => setIsEditing(true)} className="btn btn-secondary">Editar</button>
-              <button onClick={() => deleteNote(index)} className="btn btn-danger">Eliminar</button>
+              <button onClick={() => deleteNote(id)} className="btn btn-danger">Eliminar</button>
             </>
           )}
         </div>
