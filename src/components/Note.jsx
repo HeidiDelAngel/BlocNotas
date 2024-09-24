@@ -48,8 +48,8 @@ const Note = ({ title, content, color, index, deleteNote, editNote }) => {
             <h5 className="card-title" style={{ backgroundColor: titleColor, color: textColor, cursor: 'default' }}>
               {title}
             </h5>
-            <span onClick={() => setIsMinimized(!isMinimized)} style={{ backgroundColor: 'gray', cursor: 'pointer' }}>
-              &nbsp;{isMinimized ? '+' : '-'}&nbsp;
+            <span onClick={() => setIsMinimized(!isMinimized)} style={{ backgroundColor: titleColor, cursor: 'pointer' }}>
+              &nbsp;&nbsp;{isMinimized ? '+' : '-'}&nbsp;&nbsp;
             </span>
           </div>
           {!isMinimized && (

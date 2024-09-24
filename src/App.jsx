@@ -55,7 +55,7 @@ const App = () => {
           onChange={(e) => setNoteInput(e.target.value)}
           placeholder="Escribe una nota..."
           rows="1"
-          style={{ width: '20%' }}
+          style={{ width: '20%', marginRight: '20px' }}
         />
           <label>Seleccionar color:&nbsp;&nbsp;</label>
           <input
